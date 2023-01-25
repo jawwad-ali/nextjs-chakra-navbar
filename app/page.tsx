@@ -1,91 +1,152 @@
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from './page.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+"use client";
+import {
+  useColorMode,
+  Switch,
+  Icon,
+  Flex,
+  Button,
+  IconButton,
+} from "@chakra-ui/react";
+import { useState } from "react";
+import { HamburgerIcon, CloseIcon, EmailIcon } from "@chakra-ui/icons";
+import { FaMapMarker, FaCartPlus } from "react-icons/fa";
+import NextLink from "next/link";
 
 export default function Home() {
+  const { colorMode, toggleColorMode } = useColorMode();
+  const isDark = colorMode === "dark";
+  const [display, setDisplay] = useState("none");
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <Flex>
+      <Flex
+        pos="fixed"
+        alignItems={"center"}
+        w="100%"
+        justifyContent={"flex-end"}
+        right="1"
+        top="1"
+      >
+        {/* Menu Items */}
+        <Flex display={{ base: "none", md: "none", lg: "flex" }}>
+          <NextLink href="/" passHref>
+            <Button
+              variant={"ghost"}
+              aria-label="Home"
+              my={5}
+              w="100%"
+              _hover={{ textDecoration: "underline" }}
+            >
+              <Icon as={EmailIcon} mr={1} />
+              info@example.com
+            </Button>
+          </NextLink>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
+          <NextLink href="/branches" passHref>
+            <Button
+              variant={"ghost"}
+              aria-label="About"
+              my={5}
+              w="100%"
+              _hover={{ textDecoration: "underline" }}
+            >
+              <Icon as={FaMapMarker} mr={1} />
+              Branches
+            </Button>
+          </NextLink>
+
+          <NextLink href="/stores" passHref>
+            <Button
+              variant={"ghost"}
+              aria-label="contact"
+              my={5}
+              w="100%"
+              _hover={{ textDecoration: "underline" }}
+            >
+              <Icon as={FaCartPlus} mr={1} />
+              Stores
+            </Button>
+          </NextLink>
+        </Flex>
+
+        <IconButton
+          aria-label="Open Menu"
+          size="lg"
+          mr="2"
+          icon={<HamburgerIcon />}
+          onClick={() => setDisplay("flex")} 
+          display={{ base: "flex", md: "flex", lg: "none" }}
         />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+        {/* Dark Mode button */}
+        <Switch color="green" isChecked={isDark} onChange={toggleColorMode} />
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
+        {/* For mobile */}
+        <Flex
+          w="100vw"
+          bgColor={"gray.50"}
+          zIndex={50}
+          h="100vh"
+          pos="fixed"
+          top="0"
+          left="0"
+          overflowY="auto"
+          flexDir={"column"}
+          display={display}
+          right="1"
         >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
+          <Flex justify="flex-end">
+            <IconButton
+              mt="2"
+              mr="2"
+              aria-label="Close menu"
+              size="lg"
+              onClick={() => setDisplay("none")}
+              icon={<CloseIcon />}
+            />
+          </Flex>
+          <Flex flexDir="column" align="center">
+            <NextLink href="/" passHref>
+              <Button
+                variant={"ghost"}
+                aria-label="Home"
+                my={5}
+                w="100%"
+                _hover={{ textDecoration: "underline" }}
+              >
+                <Icon as={EmailIcon} mr={1} />
+                info@example.com
+              </Button>
+            </NextLink>
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+            <NextLink href="/branches" passHref>
+              <Button
+                variant={"ghost"}
+                aria-label="About"
+                my={5}
+                w="100%"
+                _hover={{ textDecoration: "underline" }}
+              >
+                <Icon as={FaMapMarker} mr={1} />
+                Branches
+              </Button>
+            </NextLink>
+
+            <NextLink href="/stores" passHref>
+              <Button
+                variant={"ghost"}
+                aria-label="contact"
+                my={5}
+                w="100%"
+                _hover={{ textDecoration: "underline" }}
+              >
+                <Icon as={FaCartPlus} mr={1} />
+                Stores
+              </Button>
+            </NextLink>
+          </Flex>
+        </Flex>
+      </Flex>
+    </Flex>
+  );
 }
